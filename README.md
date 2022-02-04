@@ -9,7 +9,7 @@ You can test this on our [GitHub Pages](https://compulim.github.io/crbug-talkbac
 With this HTML code:
 
 ```html
-<article aria-label="Title" class="playground" tabindex="0">
+<article aria-label="Title" tabindex="0">
   <p>First paragraph</p>
   <p>Last paragraph</p>
 </article>
@@ -24,7 +24,7 @@ This is our observation and serve as our baseline.
 With similar HTML code with a nested focusable:
 
 ```html
-<article aria-label="Title" class="playground" tabindex="0">
+<article aria-label="Title" tabindex="0">
   <p>First paragraph</p>
   <p>Last paragraph</p>
   <button type="button">Click me</button>
