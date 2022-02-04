@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>crbug-talkback-nest-focusable</title>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+      .playground {
+        background: papayawhip;
+        border: solid 1px Gray;
+        padding: 0 1em;
+      }
+
+      button {
+        margin-bottom: 1em;
+      }
+
+      del,
+      ins {
+        color: Red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Demonstration of a Chrome + TalkBack bug</h1>
+    <p>Tested on Chrome 97.0.4692.98 + TalkBack 12.1 and Chrome 100.0.4867.0 + TalkBack 12.1.</p>
+    <hr />
+    <article>
+      <header>
+        <h2>Happy path</h2>
+      </header>
+      <h3>Repro steps</h3>
+      <ol>
+        <li>Turn on TalkBack</li>
+        <li>Swipe right to select the yellow box below</li>
+        <li>Swipe right again to select the "First paragraph"</li>
+        <li>Swipe right again to select the "Last paragraph"</li>
+      </ol>
+      <h3>Observation</h3>
+      <p>Each bullet represents each swipe right gesture.</p>
+      <ol>
+        <li>"Title", article</li>
+      </ol>
+      <h3>Playground</h3>
+      <article aria-label="Title" class="playground" tabindex="0">
+        <p>First paragraph</p>
+        <p>Last paragraph</p>
+      </article>
+      <h3>HTML code</h3>
+      <pre>
+&lt;article aria-label=&quot;Title&quot; tabindex=&quot;0&quot;&gt;
+  &lt;p&gt;First paragraph&lt;/p&gt;
+  &lt;p&gt;Last paragraph&lt;/p&gt;
+&lt;/article&gt;</pre
+      >
+    </article>
+    <hr />
+    <article>
+      <header>
+        <h2>Unhappy path</h2>
+      </header>
+      <h3>Repro steps</h3>
+      <ol>
+        <li>Turn on TalkBack</li>
+        <li>Swipe right to select the yellow box below</li>
+        <li>Swipe right again to select the "First paragraph"</li>
+        <li>Swipe right again to select the "Last paragraph"</li>
+        <li>Swipe right again to select the "Click me" button</li>
+      </ol>
+      <h3>Expected readings</h3>
+      <p>Each bullet represents each swipe right gesture. This expectation is based on the observation in happy path scenario.</p>
+      <ol>
+        <li>"Title", article</li>
+        <li>"Click me", button, double tap to activate</li>
+      </ol>
+      <h3>Actual readings</h3>
+      <p>Each bullet represents each swipe right gesture. Highlighted code are differences to expectations.</p>
+      <ol>
+        <li>"Title", article, <ins>"First paragraph", "Last paragraph"</ins></li>
+        <li><ins>"First paragraph"</ins></li>
+        <li><ins>"Last paragraph"</ins></li>
+        <li>"Click me", button, double tap to activate</li>
+      </ol>
+      <h3>Playground</h3>
+      <article aria-label="Title" class="playground" tabindex="0">
+        <p>First paragraph</p>
+        <p>Last paragraph</p>
+        <button type="button">Click me</button>
+      </article>
+      <h3>HTML code</h3>
+      <pre>
+&lt;article aria-label=&quot;Title&quot; tabindex=&quot;0&quot;&gt;
+  &lt;p&gt;First paragraph&lt;/p&gt;
+  &lt;p&gt;Last paragraph&lt;/p&gt;
+  &lt;button type=&quot;button&quot;&gt;Click me&lt;/button&gt;
+&lt;/article&gt;</pre
+      >
+    </article>
+  </body>
+</html>

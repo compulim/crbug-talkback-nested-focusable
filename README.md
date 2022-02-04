@@ -1,71 +1,46 @@
 # crbug-talkback-nested-focusable
 
-## TalkBack: should not read content if focusables are nested
+## Chrome + TalkBack is inconsistent when reading nested focusables and read the content twice
 
 Tested on Chrome 97.0.4692.98 + TalkBack 12.1 and Chrome 100.0.4867.0 + TalkBack 12.1.
 
-### Background
-
-When selecting a focusable element, it should only read its accessible name (such as `aria-label`), but not its content.
-
-### Findings
-
-With the following element:
+With this HTML code:
 
 ```html
-<div aria-label="Title" tabindex="0">
+<article aria-label="Title" class="playground" tabindex="0">
   <p>First paragraph</p>
   <p>Last paragraph</p>
-</div>
+</article>
 ```
 
-From the top of the document, swiping right, it will read:
+On every swipe right gesture on TalkBack, it will read each bullet:
 
-- "Title"
-- "First paragraph"
-- "Last paragraph"
+1. "Title", article
 
-This is correct behavior.
+This is our observation and serve as our baseline.
 
-However, when a focusable element is nested inside:
+With similar HTML code with a nested focusable:
 
 ```html
-<div aria-label="Title" tabindex="0">
+<article aria-label="Title" class="playground" tabindex="0">
   <p>First paragraph</p>
   <p>Last paragraph</p>
-  <button>Hello</button>
-</div>
+  <button type="button">Click me</button>
+</article>
 ```
 
-From the top of the document, swiping right, it will read:
+On every swipe right gesture on TalkBack, it will read each bullet:
 
-- "Title, **First paragraph, Last paragraph**" (it should not narrate the content)
-- "First paragraph"
-- "Last paragraph"
-- "Hello button, double tap to active"
+1. "Title", article, <ins>"First paragraph", "Last paragraph"</ins></li>
+1. <ins>"First paragraph"</ins></li>
+1. <ins>"Last paragraph"</ins></li>
+1. "Click me", button, double tap to activate</li>
 
-### Additional information
+Note:
 
-The only way to workaround it is to make it not focusable by any means, such as `<button disabled>`, `<button hidden>`, `<button style="display: none;">`. However, in many cases, this is not a feasible workaround.
+- 1st swipe will read the element content, along with the `aria-label`
+   - Since `aria-label` present, TalkBack should not read the element content
+- 2nd and 3rd swipe will read the element content
+   - This is inconsistent with the former case
 
-Things tested **not** working as a workaround:
-
-```html
-<button
-  aria-hidden="true"
-  role="presentation none"
-  style="pointer-events: none;"
-  tabindex="-1"
->
-```
-
-And
-
-```html
-<div
-  aria-hidden="true"
-  role="presentation none"
->
-  <button>Hello</button>
-</div>
-```
+With nested focusable, TalkBack will read the content twice (1st point, and then, 2nd/3rd points).
