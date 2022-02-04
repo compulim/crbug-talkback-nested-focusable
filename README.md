@@ -37,10 +37,10 @@ With similar HTML with a new nested focusable:
 
 On every swipe right gesture on TalkBack, it will read the following bullets, each bullet represents a swipe gesture:
 
-1. "Title", article, <ins>"First paragraph", "Last paragraph"</ins></li>
-1. <ins>"First paragraph"</ins></li>
-1. <ins>"Last paragraph"</ins></li>
-1. "Click me", button, double tap to activate</li>
+1. "Title", article, <ins>"First paragraph", "Last paragraph"</ins>
+1. <ins>"First paragraph"</ins>
+1. <ins>"Last paragraph"</ins>
+1. "Click me", button, double tap to activate
 
 Note:
 
