@@ -19,7 +19,7 @@ With the following HTML:
 </article>
 ```
 
-On every swipe right gesture on TalkBack, it will read each bullet:
+On every swipe right gesture on TalkBack, it will read the following bullets, each bullet represents a swipe gesture:
 
 1. "Title", article
 
@@ -35,7 +35,7 @@ With similar HTML with a new nested focusable:
 </article>
 ```
 
-On every swipe right gesture on TalkBack, it will read each bullet:
+On every swipe right gesture on TalkBack, it will read the following bullets, each bullet represents a swipe gesture:
 
 1. "Title", article, <ins>"First paragraph", "Last paragraph"</ins></li>
 1. <ins>"First paragraph"</ins></li>
@@ -45,8 +45,8 @@ On every swipe right gesture on TalkBack, it will read each bullet:
 Note:
 
 - 1st swipe will read the element content, along with the `aria-label`
-   - Since `aria-label` present, TalkBack should not read the element content
+   - Since `aria-label` present, TalkBack should not read the element content "First paragraph" and "Last paragraph"
 - 2nd and 3rd swipe will read the element content
-   - This is inconsistent with the former case
+   - This is inconsistent with the observation of the former case, which do not read on 2nd and 3rd swipe
 
 With nested focusable, TalkBack will read the content twice (1st point, and then, 2nd/3rd points).
